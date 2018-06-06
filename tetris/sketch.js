@@ -4,55 +4,6 @@ let groundArray = [];
 let blockcolors = ["blue","red","green","brown","yellow","orange","purple"]; // Color array for each block
 let player;
 
-function createBlock(type) {                // get block array
-  switch (type) {                         // this function will return the shape follow its type
-  case 0:
-    return [
-      [1, 1],
-      [1, 1],
-    ];
-  case 1:
-    return [
-      [2, 2, 0],
-      [0, 2, 2],
-      [0, 0, 0],
-    ];
-  case 2:
-    return [
-      [0, 3, 3],
-      [3, 3, 0],
-      [0, 0, 0],
-    ];
-
-  case 3:
-    return [
-      [0, 0, 0],
-      [4, 4, 4],
-      [0, 4, 0],
-    ];
-
-  case 4:
-    return [
-      [0, 5, 0],
-      [0, 5, 0],
-      [0, 5, 5],
-    ];
-  case 5:
-    return [
-      [0, 6, 0],
-      [0, 6, 0],
-      [6, 6, 0],
-    ];
-
-  case 6:
-    return [
-      [0, 7, 0, 0],
-      [0, 7, 0, 0],
-      [0, 7, 0, 0],
-      [0, 7, 0, 0],
-    ];
-  }
-}
 
 // The statements in the setup() function
 // execute once when the program begins
@@ -76,6 +27,9 @@ function draw() {
   if ((millis() - time) > 1000) {
     player.drop();                      //drop block after 1 second
   }
+  if(keyIsDown(DOWN_ARROW)){
+    player.drop();
+  }
 }
 
 function keyPressed() {
@@ -89,6 +43,15 @@ function keyPressed() {
     player.x++;                         // move block left
     if (IsCollide(groundArray, player)) {
       player.x--;
+    }
+  }
+  else if (keyCode === UP_ARROW){
+    player.rotate();                    // rotate blocks
+    if (IsCollide(groundArray, player)){
+      player.rotate();
+      player.rotate();
+      player.rotate();
+
     }
   }
 }
@@ -137,7 +100,9 @@ function Player() {
     this.y++;                                                   // increase value of y axis
     if (IsCollide(groundArray, this)) {                         // if collideration detected, recover the y axis value
       this.y--;                                               // recovery y axis value
-      this.reset();                                           // reset ground
+      //this.reset();                                           // reset ground
+      player.reset();
+
     }
     time = millis();
   };
@@ -154,4 +119,60 @@ function Player() {
   this.updateScore = function () {
     document.getElementById("score").innerText = this.score;     // update score display
   };
+}
+
+
+
+
+
+
+
+function createBlock(type) {                // get block array
+  switch (type) {                         // this function will return the shape follow its type
+  case 0:
+    return [
+      [1, 1],
+      [1, 1],
+    ];
+  case 1:
+    return [
+      [2, 2, 0],
+      [0, 2, 2],
+      [0, 0, 0],
+    ];
+  case 2:
+    return [
+      [0, 3, 3],
+      [3, 3, 0],
+      [0, 0, 0],
+    ];
+
+  case 3:
+    return [
+      [0, 0, 0],
+      [4, 4, 4],
+      [0, 4, 0],
+    ];
+
+  case 4:
+    return [
+      [0, 5, 0],
+      [0, 5, 0],
+      [0, 5, 5],
+    ];
+  case 5:
+    return [
+      [0, 6, 0],
+      [0, 6, 0],
+      [6, 6, 0],
+    ];
+
+  case 6:
+    return [
+      [0, 7, 0, 0],
+      [0, 7, 0, 0],
+      [0, 7, 0, 0],
+      [0, 7, 0, 0],
+    ];
+  }
 }
