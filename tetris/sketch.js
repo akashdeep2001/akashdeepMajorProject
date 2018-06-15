@@ -78,30 +78,46 @@ function IsCollide(groundArray, player) {                                       
   return false;
 }
 
+
+function mergeMatrices(groundArray, player) {                                       // adding groudnArray and block matrix array
+  for (let y = 0; y < player.matrix.length; y++) {                                // store merged block to groundArray
+    for (let x = 0; x < player.matrix[y].length; x++) {
+      if (player.matrix[y][x] !== 0) {
+        groundArray[y + player.y][x + player.x] = player.matrix[y][x];
+      }
+    }
+  }
+}
+
 function Player() {
   this.x = 0;                                                 // initialize block position X
   this.y = 0;                                                 // initialize block position y
-  this.matrix = 0;                                            // initialize matrix
+  this.matrix = null;                                            // initialize matrix
   this.score = 0;                                             // initialize score as zero
 
-  this.reset = function () {                                  // reset ground
-    this.x = width / edge / 2 - 1;                        // set block position x center at the first time
-    this.y = 0;                                             // set block position y as zero
-    this.matrix = createBlock(Math.floor(Math.random() * 7));//create new block
-    if (IsCollide(groundArray, player)) {                   // if detected collideration initialize groundarray as zero array
+
+  // this function reset ground and set block position x center at the first time.
+  // Also it set block position y as zero and then create a random new block
+  // Once it create new block it detect if the block touches the ground
+  this.reset = function () {
+    this.x = width / edge / 2 - 1;
+    this.y = 0;
+    this.matrix = createBlock(Math.floor(Math.random() * 7));
+    if (IsCollide(groundArray, player)) {
       for (let i = 0; i < groundArray.length; i++) {
         groundArray[i].fill(0);
       }
     }
-    this.updateScore();                                     // update score
+    this.updateScore();
   };
 
   this.drop = function () {                                       //this function drops block
     this.y++;                                                   // increase value of y axis
     if (IsCollide(groundArray, this)) {                         // if collideration detected, recover the y axis value
-      this.y--;                                               // recovery y axis value
+      this.y--;
+      mergeMatrices(groundArray, this);                                             // recovery y axis value
       //this.reset();                                           // reset ground
-      player.reset();
+      this.reset();
 
     }
     time = millis();
@@ -120,12 +136,6 @@ function Player() {
     document.getElementById("score").innerText = this.score;     // update score display
   };
 }
-
-
-
-
-
-
 
 function createBlock(type) {                // get block array
   switch (type) {                         // this function will return the shape follow its type
