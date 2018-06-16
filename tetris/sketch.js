@@ -1,3 +1,12 @@
+// Akashdeep Singh Khalsa
+//June 15 2018
+//Tetris Major Project
+// Resourses used: Meth Meth Method(Tetris), The Coding Train(Constructor)
+// Finished: Every shape works and rotate and stays on the grid until the grid is full
+// Uncomplete: Clear line once it full
+// Control: Up, right, left, down
+
+
 const edge = 20;                            //edge of one rectangle of shape
 let time;                                  //declare scope variable time
 let groundArray = [];
@@ -78,7 +87,6 @@ function IsCollide(groundArray, player) {                                       
   return false;
 }
 
-
 function mergeMatrices(groundArray, player) {                                       // adding groudnArray and block matrix array
   for (let y = 0; y < player.matrix.length; y++) {                                // store merged block to groundArray
     for (let x = 0; x < player.matrix[y].length; x++) {
@@ -93,8 +101,6 @@ function Player() {
   this.x = 0;                                                 // initialize block position X
   this.y = 0;                                                 // initialize block position y
   this.matrix = null;                                            // initialize matrix
-  this.score = 0;                                             // initialize score as zero
-
 
   // this function reset ground and set block position x center at the first time.
   // Also it set block position y as zero and then create a random new block
@@ -108,7 +114,6 @@ function Player() {
         groundArray[i].fill(0);
       }
     }
-    this.updateScore();
   };
 
   this.drop = function () {                                       //this function drops block
@@ -130,10 +135,6 @@ function Player() {
         [this.matrix[y][x], this.matrix[x][y]] = [this.matrix[x][y], this.matrix[y][x]];
       }
     }
-  };
-
-  this.updateScore = function () {
-    document.getElementById("score").innerText = this.score;     // update score display
   };
 }
 
